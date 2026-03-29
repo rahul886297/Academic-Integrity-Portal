@@ -26,11 +26,11 @@ app.get("/api/dashboard", protect, (req, res) => {
 });
 
 const __dirname = path.resolve();
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../academic-integrity-frontend/dist")));
+if (process.env.NODE_ENV === "production" || process.env.RENDER_ENV === "production" || process.env.NODE_ENV) {
+  app.use(express.static(path.join(__dirname, "academic-integrity-frontend/dist")));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../academic-integrity-frontend/dist", "index.html"));
+    res.sendFile(path.resolve(__dirname, "academic-integrity-frontend/dist", "index.html"));
   });
 }
 
