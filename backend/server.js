@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import marksRoutes from "./routes/marks.js";
 import metaRoutes from "./routes/meta.js";
+import analyticsRoutes from "./routes/analytics.js";
 import cors from "cors";
 
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/marks", marksRoutes);
 app.use("/api/meta", metaRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
 import { protect } from "./middleware/authMiddleware.js";
 

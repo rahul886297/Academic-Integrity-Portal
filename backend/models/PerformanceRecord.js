@@ -1,15 +1,26 @@
 import mongoose from "mongoose";
 
 const performanceSchema = new mongoose.Schema({
-  student: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-  subject: { type: mongoose.Schema.Types.ObjectId, ref: 'Subject', required: true },
-  semester: { type: Number, required: true },
-  marks: { type: Number, required: true, min: 0, max: 100 },
-  attendance: { type: Number, default: 0, min: 0, max: 100 },
+  // Support both ObjectIds (legacy) and JSON flat structure
+  student: { type: mongoose.Schema.Types.Mixed, ref: 'User' },
+  subject: { type: mongoose.Schema.Types.Mixed, ref: 'Subject' },
+  teacher: { type: mongoose.Schema.Types.Mixed, ref: 'User' },
+  
+  semester: { type: Number },
+  marks: { type: Number, required: true, min: 0 },
+  attendance: { type: Number, default: 0, min: 0 },
   assignments: { type: Number, default: 0, min: 0, max: 100 },
-  teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   consistencyScore: { type: Number, default: 100 },
-  flags: [{ type: String }]
-}, { timestamps: true });
+  flags: [{ type: String }],
 
-export default mongoose.model("PerformanceRecord", performanceSchema);
+  // Advanced Matrix parsed from JSON
+  studentId: { type: String },
+  name: { type: String },
+  course: { type: String },
+  section: { type: String },
+  aiScore: { type: Number },
+  plagiarism: { type: Number },
+  trustScore: { type: Number }
+}, { timestamps: true, strict: false });
+
+export default mongoose.models.PerformanceRecord || mongoose.model("PerformanceRecord", performanceSchema);
